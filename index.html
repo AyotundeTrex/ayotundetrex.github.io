@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ayotunde Aleem — QA / Automation Test Engineer</title>
+<meta name="description" content="Ayotunde 'Trex' Aleem — QA and Automation Test Engineer based in Lagos, Nigeria.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12131A;
+    --surface:#1B1D27;
+    --surface-2:#20222E;
+    --line:#2E313F;
+    --text:#EDEEF3;
+    --muted:#8B8FA3;
+    --mint:#5EEAD4;
+    --amber:#F2A65A;
+    --mono:'JetBrains Mono', monospace;
+    --sans:'Inter', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  ::selection{background:var(--mint); color:var(--ink);}
+
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--mint);
+    outline-offset:3px;
+  }
+
+  .wrap{max-width:920px; margin:0 auto; padding:0 24px;}
+
+  header.nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(18,19,26,0.85);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 24px; max-width:920px; margin:0 auto;
+  }
+  .logo{
+    font-family:var(--mono); font-weight:700; font-size:15px;
+    color:var(--text); text-decoration:none; letter-spacing:0.5px;
+  }
+  .logo span{color:var(--mint);}
+  .nav-links{display:flex; gap:22px; list-style:none; margin:0; padding:0;}
+  .nav-links a{
+    font-family:var(--mono); font-size:13px; text-decoration:none;
+    color:var(--muted); transition:color .15s ease;
+  }
+  .nav-links a:hover{color:var(--mint);}
+  .nav-toggle{display:none; background:none; border:1px solid var(--line); color:var(--text); font-family:var(--mono); padding:6px 10px; border-radius:6px;}
+
+  @media (max-width:640px){
+    .nav-links{
+      position:fixed; top:53px; left:0; right:0;
+      flex-direction:column; gap:0;
+      background:var(--surface);
+      border-bottom:1px solid var(--line);
+      max-height:0; overflow:hidden;
+      transition:max-height .25s ease;
+    }
+    .nav-links.open{max-height:320px;}
+    .nav-links a{padding:14px 24px; border-top:1px solid var(--line);}
+    .nav-toggle{display:block;}
+  }
+
+  .hero{padding:56px 0 40px; border:none;}
+  .terminal{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);
+  }
+  .terminal-bar{
+    display:flex; align-items:center; gap:8px;
+    padding:10px 14px;
+    background:var(--surface-2);
+    border-bottom:1px solid var(--line);
+  }
+  .dot{width:10px; height:10px; border-radius:50%; background:#5c5f6b;}
+  .terminal-title{
+    font-family:var(--mono); font-size:12px; color:var(--muted);
+    margin-left:8px;
+  }
+  .terminal-body{
+    font-family:var(--mono); font-size:14px;
+    padding:20px 18px 22px;
+    min-height:210px;
+  }
+  .terminal-body .line{white-space:pre; opacity:0; animation:reveal .25s forwards;}
+  .prompt{color:var(--amber);}
+  .pass{color:var(--mint);}
+  .summary-line{color:var(--text); font-weight:700;}
+  .dim{color:var(--muted);}
+  @keyframes reveal{ to{opacity:1;} }
+  @media (prefers-reduced-motion: reduce){
+    .terminal-body .line{opacity:1; animation:none;}
+  }
+
+  .hero-titles{margin-top:34px;}
+  h1{
+    font-family:var(--mono); font-size:clamp(32px,6vw,48px);
+    margin:0 0 6px; font-weight:800; letter-spacing:-0.5px;
+  }
+  .role{
+    font-size:18px; color:var(--mint); font-family:var(--mono);
+    margin:0 0 16px; font-weight:500;
+  }
+  .lede{color:var(--muted); max-width:56ch; margin:0 0 24px; font-size:16px;}
+  .cta-row{display:flex; gap:12px; flex-wrap:wrap;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--mono); font-size:13px; text-decoration:none;
+    padding:11px 18px; border-radius:8px; border:1px solid var(--line);
+    color:var(--text); transition:all .15s ease;
+  }
+  .btn.primary{background:var(--mint); color:var(--ink); border-color:var(--mint); font-weight:700;}
+  .btn.primary:hover{background:#7ff2e2;}
+  .btn:not(.primary):hover{border-color:var(--mint); color:var(--mint);}
+
+  section{padding:64px 0;}
+  section + section{border-top:1px solid var(--line);}
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; color:var(--amber);
+    letter-spacing:1.5px; text-transform:uppercase; margin:0 0 8px;
+  }
+  h2{font-family:var(--mono); font-size:26px; margin:0 0 32px; font-weight:700;}
+  h2 .brace{color:var(--muted); font-weight:400;}
+
+  .describe-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  @media (max-width:640px){ .describe-grid{grid-template-columns:1fr;} }
+  .describe-block{
+    background:var(--surface); border:1px solid var(--line); border-radius:10px;
+    padding:20px 22px;
+  }
+  .describe-block h3{
+    font-family:var(--mono); font-size:14px; margin:0 0 14px; color:var(--muted); font-weight:500;
+  }
+  .describe-block h3 .kw{color:var(--amber);}
+  .it-row{
+    display:flex; align-items:baseline; gap:10px;
+    font-family:var(--mono); font-size:13.5px; padding:5px 0;
+  }
+  .it-row .check{color:var(--mint);}
+
+  .log-entry{
+    border-left:2px solid var(--line);
+    padding:0 0 36px 24px;
+    position:relative;
+  }
+  .log-entry:last-child{padding-bottom:0;}
+  .log-entry::before{
+    content:''; position:absolute; left:-6px; top:2px;
+    width:10px; height:10px; border-radius:50%;
+    background:var(--mint); box-shadow:0 0 0 4px var(--ink);
+  }
+  .log-meta{
+    font-family:var(--mono); font-size:12px; color:var(--muted);
+    display:flex; gap:10px; align-items:center; margin-bottom:6px; flex-wrap:wrap;
+  }
+  .badge{
+    font-family:var(--mono); font-size:11px; color:var(--mint);
+    border:1px solid var(--mint); border-radius:20px; padding:2px 9px;
+  }
+  .log-entry h3{margin:0 0 3px; font-size:19px; font-weight:700;}
+  .log-entry .company{color:var(--muted); font-size:14px; margin:0 0 12px;}
+  .log-lines{margin:0; padding:0; list-style:none;}
+  .log-lines li{
+    font-size:14.5px; color:var(--text); padding:5px 0; padding-left:22px; position:relative;
+  }
+  .log-lines li::before{
+    content:'>'; position:absolute; left:0; color:var(--amber); font-family:var(--mono);
+  }
+
+  .cert-row{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media (max-width:640px){ .cert-row{grid-template-columns:1fr;} }
+  .cert-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:10px;
+    padding:18px 20px; display:flex; gap:14px; align-items:flex-start;
+  }
+  .cert-icon{
+    font-family:var(--mono); color:var(--mint); font-size:13px; border:1px solid var(--mint);
+    border-radius:6px; padding:4px 7px; white-space:nowrap; margin-top:2px;
+  }
+  .cert-card h3{margin:0 0 4px; font-size:15px;}
+  .cert-card p{margin:0; color:var(--muted); font-size:13px; font-family:var(--mono);}
+
+  .case-grid{display:grid; grid-template-columns:1fr; gap:18px;}
+  .case-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:10px;
+    padding:22px 24px;
+  }
+  .case-card .tc-id{font-family:var(--mono); font-size:12px; color:var(--amber); margin:0 0 6px;}
+  .case-card h3{margin:0 0 10px; font-size:18px;}
+  .kv{display:grid; grid-template-columns:120px 1fr; gap:6px 14px; font-size:14px; margin-top:12px;}
+  .kv dt{font-family:var(--mono); color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:0.5px;}
+  .kv dd{margin:0; color:var(--text);}
+  .result{color:var(--mint); font-family:var(--mono); font-weight:700; font-size:13px; margin-top:14px;}
+
+  .assert-box{
+    background:var(--surface); border:1px solid var(--line); border-radius:10px;
+    padding:30px 26px; text-align:center;
+  }
+  .assert-code{
+    font-family:var(--mono); font-size:15px; color:var(--muted); margin-bottom:22px;
+  }
+  .assert-code .fn{color:var(--amber);}
+  .assert-code .val{color:var(--mint);}
+  .contact-links{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+
+  footer{
+    padding:30px 0 50px; text-align:center; color:var(--muted);
+    font-family:var(--mono); font-size:12px;
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#top" class="logo">aa<span>.</span>test()</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">menu</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#skills">skills</a></li>
+      <li><a href="#experience">log</a></li>
+      <li><a href="#certifications">certs</a></li>
+      <li><a href="#projects">cases</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<div class="wrap" id="top">
+  <section class="hero">
+    <div class="terminal">
+      <div class="terminal-bar">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="terminal-title">ayotunde_aleem.spec — zsh</span>
+      </div>
+      <div class="terminal-body" id="termBody"></div>
+    </div>
+
+    <div class="hero-titles">
+      <p class="eyebrow">Lagos, Nigeria</p>
+      <h1>Ayotunde Aleem</h1>
+      <p class="role">QA / Automation Test Engineer</p>
+      <p class="lede">Three years spent breaking software before customers do — manual, automated, regression and API testing, with a growing focus on application security testing. Currently shipping tests against a live legal-tech product at TM30 Global.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="mailto:ayotunde.aleem@gmail.com">Email me</a>
+        <a class="btn" href="https://github.com/ayotundetrex" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="#" id="resumeLink">Download résumé</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <p class="eyebrow">Test Suite</p>
+    <h2><span class="brace">describe(</span>'skills'<span class="brace">)</span></h2>
+    <div class="describe-grid">
+      <div class="describe-block">
+        <h3><span class="kw">describe</span>('QA & Testing')</h3>
+        <div class="it-row"><span class="check">✓</span> manual testing</div>
+        <div class="it-row"><span class="check">✓</span> automated testing</div>
+        <div class="it-row"><span class="check">✓</span> regression testing</div>
+        <div class="it-row"><span class="check">✓</span> functional &amp; UI testing</div>
+        <div class="it-row"><span class="check">✓</span> API testing</div>
+        <div class="it-row"><span class="check">✓</span> agile / scrum, STLC</div>
+      </div>
+      <div class="describe-block">
+        <h3><span class="kw">describe</span>('Security Testing')</h3>
+        <div class="it-row"><span class="check">✓</span> DAST fundamentals</div>
+        <div class="it-row"><span class="check">✓</span> OWASP Top 10 awareness</div>
+        <div class="it-row"><span class="check">✓</span> XSS / SQLi identification</div>
+        <div class="it-row"><span class="check">✓</span> Burp Suite, OWASP ZAP</div>
+      </div>
+      <div class="describe-block">
+        <h3><span class="kw">describe</span>('Tools')</h3>
+        <div class="it-row"><span class="check">✓</span> Postman</div>
+        <div class="it-row"><span class="check">✓</span> Scandium</div>
+        <div class="it-row"><span class="check">✓</span> Git</div>
+        <div class="it-row"><span class="check">✓</span> Browser DevTools</div>
+      </div>
+      <div class="describe-block">
+        <h3><span class="kw">describe</span>('Programming')</h3>
+        <div class="it-row"><span class="check">✓</span> HTML / CSS / JavaScript</div>
+        <div class="it-row"><span class="check">✓</span> Python (foundational)</div>
+        <div class="it-row"><span class="check">✓</span> SQL (basic)</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <p class="eyebrow">Execution Log</p>
+    <h2>experience</h2>
+
+    <div class="log-entry">
+      <div class="log-meta"><span class="badge">PASS</span> 2025 — Present</div>
+      <h3>Quality Assurance Engineer</h3>
+      <p class="company">TM30 Global Limited — Lagos (Remote)</p>
+      <ul class="log-lines">
+        <li>Manual + automated testing on enterprise web applications, test cases derived from FRDs</li>
+        <li>End-to-end testing of a live legal-tech product — client management, messaging, billing, auth</li>
+        <li>API testing via Postman: request/response validation, auth checks, data integrity</li>
+        <li>Defect documentation and tracking through resolution and retesting</li>
+        <li>Automation learning and execution using Scandium</li>
+      </ul>
+    </div>
+
+    <div class="log-entry">
+      <div class="log-meta"><span class="badge">PASS</span> 2022 — 2025</div>
+      <h3>Quality Assurance Tester</h3>
+      <p class="company">Silveredge Tech / ENL NOVA Limited — Remote</p>
+      <ul class="log-lines">
+        <li>Test case design and execution for web and mobile applications, alongside full-time study</li>
+        <li>Functional, regression, and usability testing; retesting before production releases</li>
+        <li>Defect tracking across distributed development teams</li>
+        <li>Contributed to a dynamic e-commerce platform and the Lagos State EPPPS government platform</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="certifications">
+    <p class="eyebrow">Artifacts</p>
+    <h2>certifications</h2>
+    <div class="cert-row">
+      <div class="cert-card">
+        <span class="cert-icon">SCD</span>
+        <div>
+          <h3>Specialized Training in Software Test Automation</h3>
+          <p>Scandium Systems Inc. — April 2026</p>
+        </div>
+      </div>
+      <div class="cert-card">
+        <span class="cert-icon">MOAT</span>
+        <div>
+          <h3>Software Development Training</h3>
+          <p>Moat Academy for Developers — 2022</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <p class="eyebrow">Regression Suite</p>
+    <h2>selected cases</h2>
+    <div class="case-grid">
+
+      <div class="case-card">
+        <p class="tc-id">TC-001</p>
+        <h3>Legal-tech platform QA — TM30 Global</h3>
+        <dl class="kv">
+          <dt>Precondition</dt><dd>New FRD-derived modules awaiting release sign-off</dd>
+          <dt>Steps</dt><dd>Designed step-level test cases; ran end-to-end manual tests across client management, messaging, billing, and authentication</dd>
+          <dt>Expected</dt><dd>All critical paths pass before deployment</dd>
+        </dl>
+        <p class="result">Result: defects caught pre-release, reduced production risk</p>
+      </div>
+
+      <div class="case-card">
+        <p class="tc-id">TC-002</p>
+        <h3>Lagos State EPPPS Platform</h3>
+        <dl class="kv">
+          <dt>Precondition</dt><dd>Government-facing platform requiring high reliability</dd>
+          <dt>Steps</dt><dd>Functional and regression testing across core workflows</dd>
+          <dt>Expected</dt><dd>Stable, seamless operation for public users</dd>
+        </dl>
+        <p class="result">Result: platform tested and shipped, working as intended</p>
+      </div>
+
+      <div class="case-card">
+        <p class="tc-id">TC-003</p>
+        <h3>Dynamic e-commerce platform (team project)</h3>
+        <dl class="kv">
+          <dt>Precondition</dt><dd>New storefront and checkout flow in development</dd>
+          <dt>Steps</dt><dd>Collaborative QA across product, cart, and checkout logic</dd>
+          <dt>Expected</dt><dd>Reliable purchase flow with minimal post-release defects</dd>
+        </dl>
+        <p class="result">Result: contributed to successful, low-defect launch</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="contact" style="border-bottom:none;">
+    <p class="eyebrow">Final Assertion</p>
+    <h2>contact</h2>
+    <div class="assert-box">
+      <p class="assert-code"><span class="fn">expect</span>(recruiter.callback)<span class="fn">.toBe</span>(<span class="val">true</span>);</p>
+      <div class="contact-links">
+        <a class="btn primary" href="mailto:ayotunde.aleem@gmail.com">ayotunde.aleem@gmail.com</a>
+        <a class="btn" href="tel:+2349056935736">+234 905 693 5736</a>
+        <a class="btn" href="https://github.com/ayotundetrex" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="#" id="linkedinLink" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>Built &amp; tested by Ayotunde Aleem — Lagos, Nigeria</footer>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    const open = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', open);
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  }));
+
+  const lines = [
+    { text: '$ run --suite=career --target=recruiter', cls: 'prompt' },
+    { text: '✓ manual-testing.spec        (18ms)', cls: 'pass' },
+    { text: '✓ automation-testing.spec    (24ms)', cls: 'pass' },
+    { text: '✓ api-testing.spec           (12ms)', cls: 'pass' },
+    { text: '✓ regression-testing.spec    (9ms)',  cls: 'pass' },
+    { text: '✓ security-testing.spec      (31ms)', cls: 'pass' },
+    { text: '', cls: 'dim' },
+    { text: '24 passed, 0 failed', cls: 'dim' },
+    { text: 'Suite: PASS — ready for deployment', cls: 'summary-line' },
+  ];
+  const body = document.getElementById('termBody');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function renderStatic(){
+    lines.forEach(l => {
+      const div = document.createElement('div');
+      div.className = 'line ' + l.cls;
+      div.textContent = l.text;
+      body.appendChild(div);
+    });
+  }
+
+  if(reduce){
+    renderStatic();
+  } else {
+    let i = 0;
+    function next(){
+      if(i >= lines.length) return;
+      const l = lines[i];
+      const div = document.createElement('div');
+      div.className = 'line ' + l.cls;
+      div.textContent = l.text;
+      body.appendChild(div);
+      i++;
+      setTimeout(next, i <= 6 ? 260 : 160);
+    }
+    next();
+  }
+
+  document.getElementById('resumeLink').addEventListener('click', function(e){
+    e.preventDefault();
+    alert('Add your resume PDF/DOCX to this repo and update the href on this button (id="resumeLink").');
+  });
+  document.getElementById('linkedinLink').addEventListener('click', function(e){
+    if(this.getAttribute('href') === '#'){
+      e.preventDefault();
+      alert('Update the href on this link (id="linkedinLink") with your real LinkedIn URL.');
+    }
+  });
+</script>
+
+</body>
+</html>
