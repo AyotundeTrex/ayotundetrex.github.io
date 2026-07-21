@@ -111,7 +111,21 @@
     .terminal-body .line{opacity:1; animation:none;}
   }
 
-  .hero-titles{margin-top:34px;}
+  .hero-titles{margin-top:34px; display:flex; gap:22px; align-items:flex-start;}
+  .avatar{
+    flex-shrink:0;
+    width:96px; height:96px; border-radius:50%;
+    border:2px solid var(--mint);
+    background:var(--surface);
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+    font-family:var(--mono); font-size:28px; font-weight:700; color:var(--mint);
+  }
+  .avatar img{width:100%; height:100%; object-fit:cover; display:block;}
+  @media (max-width:640px){
+    .hero-titles{flex-direction:column; align-items:flex-start;}
+    .avatar{width:76px; height:76px; font-size:22px;}
+  }
   h1{
     font-family:var(--mono); font-size:clamp(32px,6vw,48px);
     margin:0 0 6px; font-weight:800; letter-spacing:-0.5px;
@@ -232,7 +246,7 @@
 
 <header class="nav">
   <div class="nav-inner">
-    <a href="#top" class="logo">QA<span>.</span>Trex()</a>
+    <a href="#top" class="logo">QA.Trex<span>.</span>test()</a>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">menu</button>
     <ul class="nav-links" id="navLinks">
       <li><a href="#skills">skills</a></li>
@@ -255,14 +269,19 @@
     </div>
 
     <div class="hero-titles">
-      <p class="eyebrow">Lagos, Nigeria</p>
-      <h1>Ayotunde Aleem</h1>
-      <p class="role">QA / Automation Test Engineer</p>
-      <p class="lede">Three years spent breaking software before customers do — manual, automated, regression and API testing, with a growing focus on application security testing. Currently shipping tests against a live legal-tech product at TM30 Global.</p>
-      <div class="cta-row">
-        <a class="btn primary" href="mailto:ayotunde.aleem@gmail.com">Email me</a>
-        <a class="btn" href="https://github.com/ayotundetrex" target="_blank" rel="noopener">GitHub</a>
-        <a class="btn" href="Ayotunde_Aleem_QA_M.Resume.pdf" id="resumeLink" download>Download résumé</a>
+      <div class="avatar" id="avatar">
+        <img src="profile.jpg" alt="Ayotunde Aleem">
+      </div>
+      <div>
+        <p class="eyebrow">Lagos, Nigeria</p>
+        <h1>Ayotunde Aleem</h1>
+        <p class="role">QA / Automation Test Engineer</p>
+        <p class="lede">Three years spent breaking software before customers do — manual, automated, regression and API testing, with a growing focus on application security testing. Currently shipping tests against a live legal-tech product at TM30 Global.</p>
+        <div class="cta-row">
+          <a class="btn primary" href="mailto:ayotunde.aleem@gmail.com">Email me</a>
+          <a class="btn" href="https://github.com/ayotundetrex" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn" href="Ayotunde_Aleem_QA_M.Resume.pdf" id="resumeLink" download>Download résumé</a>
+        </div>
       </div>
     </div>
   </section>
@@ -282,10 +301,7 @@
       </div>
       <div class="describe-block">
         <h3><span class="kw">describe</span>('Security Testing')</h3>
-        <div class="it-row"><span class="check">✓</span> DAST fundamentals</div>
         <div class="it-row"><span class="check">✓</span> OWASP Top 10 awareness</div>
-        <div class="it-row"><span class="check">✓</span> XSS / SQLi identification</div>
-        <div class="it-row"><span class="check">✓</span> Burp Suite, OWASP ZAP</div>
       </div>
       <div class="describe-block">
         <h3><span class="kw">describe</span>('Tools')</h3>
@@ -297,7 +313,7 @@
       <div class="describe-block">
         <h3><span class="kw">describe</span>('Programming')</h3>
         <div class="it-row"><span class="check">✓</span> HTML / CSS / JavaScript</div>
-        <div class="it-row"><span class="check">✓</span> Python (foundational)</div>
+        <div class="it-row"><span class="check">✓</span> Python (basic)</div>
         <div class="it-row"><span class="check">✓</span> SQL (basic)</div>
       </div>
     </div>
@@ -308,7 +324,7 @@
     <h2>experience</h2>
 
     <div class="log-entry">
-      <div class="log-meta"><span class="badge">PASS</span> 2025 — Present</div>
+      <div class="log-meta"><span class="badge">PASS</span> 2026 — Present</div>
       <h3>Quality Assurance Engineer</h3>
       <p class="company">TM30 Global Limited — Lagos (Remote)</p>
       <ul class="log-lines">
@@ -465,11 +481,13 @@
   }
 
   document.getElementById('resumeLink').addEventListener('click', function(e){
-    e.preventDefault();
-    alert('Add your resume PDF/DOCX to this repo and update the href on this button (id="resumeLink").');
+    if(this.getAttribute('href') === 'Ayotunde_Aleem_QA_M.Resume'){
+      e.preventDefault();
+      alert('Add your resume PDF/DOCX to this repo and update the href on this button (id="resumeLink").');
+    }
   });
   document.getElementById('linkedinLink').addEventListener('click', function(e){
-    if(this.getAttribute('href') === '#'){
+    if(this.getAttribute('href') === 'linkedin.com/in/ayotundetrex/'){
       e.preventDefault();
       alert('Update the href on this link (id="linkedinLink") with your real LinkedIn URL.');
     }
