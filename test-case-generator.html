@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test Case Generator — Ayotunde Aleem</title>
+<meta name="description" content="Rule-based test case generator built on real QA heuristics — by Ayotunde Aleem, QA Engineer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12131A; --surface:#1B1D27; --surface-2:#20222E; --line:#2E313F;
+    --text:#EDEEF3; --muted:#8B8FA3; --mint:#5EEAD4; --amber:#F2A65A; --rose:#F2789F;
+    --mono:'JetBrains Mono', monospace; --sans:'Inter', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--ink); color:var(--text); font-family:var(--sans); line-height:1.6;}
+  a{color:var(--mint);}
+  .wrap{max-width:960px; margin:0 auto; padding:40px 24px 80px;}
+
+  .back{font-family:var(--mono); font-size:13px; color:var(--muted); text-decoration:none; display:inline-block; margin-bottom:24px;}
+  .back:hover{color:var(--mint);}
+
+  header{margin-bottom:36px;}
+  .eyebrow{font-family:var(--mono); font-size:12px; color:var(--amber); letter-spacing:1.5px; text-transform:uppercase; margin:0 0 8px;}
+  h1{font-family:var(--mono); font-size:clamp(26px,4.5vw,36px); margin:0 0 10px; font-weight:800;}
+  .sub{color:var(--muted); max-width:60ch; font-size:15px; margin:0;}
+
+  .panel{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:24px; margin-bottom:24px;}
+  label{font-family:var(--mono); font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; display:block; margin-bottom:8px;}
+  textarea{
+    width:100%; min-height:100px; background:var(--surface-2); border:1px solid var(--line); border-radius:8px;
+    color:var(--text); font-family:var(--sans); font-size:14.5px; padding:12px 14px; resize:vertical;
+  }
+  textarea:focus, input:focus{outline:2px solid var(--mint); outline-offset:2px;}
+
+  .chip-row{display:flex; gap:8px; flex-wrap:wrap; margin:12px 0 0;}
+  .chip{
+    font-family:var(--mono); font-size:12px; color:var(--muted); background:var(--surface-2);
+    border:1px solid var(--line); border-radius:20px; padding:6px 12px; cursor:pointer; transition:all .15s ease;
+  }
+  .chip:hover{border-color:var(--mint); color:var(--mint);}
+
+  .actions{display:flex; gap:12px; margin-top:18px; flex-wrap:wrap;}
+  button{
+    font-family:var(--mono); font-size:13px; padding:11px 20px; border-radius:8px; border:1px solid var(--line);
+    background:transparent; color:var(--text); cursor:pointer; transition:all .15s ease;
+  }
+  button.primary{background:var(--mint); color:var(--ink); border-color:var(--mint); font-weight:700;}
+  button.primary:hover{background:#7ff2e2;}
+  button:not(.primary):hover{border-color:var(--mint); color:var(--mint);}
+  button:disabled{opacity:0.4; cursor:not-allowed;}
+
+  .results-head{display:flex; justify-content:space-between; align-items:center; margin:36px 0 16px; flex-wrap:wrap; gap:12px;}
+  .results-head h2{font-family:var(--mono); font-size:18px; margin:0;}
+  .count{font-family:var(--mono); font-size:12px; color:var(--muted);}
+
+  .empty{color:var(--muted); font-family:var(--mono); font-size:13px; text-align:center; padding:40px 0; border:1px dashed var(--line); border-radius:10px;}
+
+  .tc-card{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:18px 20px; margin-bottom:14px;}
+  .tc-top{display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:10px;}
+  .tc-id{font-family:var(--mono); font-size:12px; color:var(--muted);}
+  .tc-title{font-size:15.5px; font-weight:600; margin:2px 0 0;}
+  .tag{font-family:var(--mono); font-size:11px; padding:3px 10px; border-radius:20px; white-space:nowrap; border:1px solid;}
+  .tag.positive{color:var(--mint); border-color:var(--mint);}
+  .tag.negative{color:var(--amber); border-color:var(--amber);}
+  .tag.edge{color:var(--rose); border-color:var(--rose);}
+  .tag.boundary{color:#8DA9FF; border-color:#8DA9FF;}
+  .tc-body{font-size:14px; color:var(--text);}
+  .tc-body dt{font-family:var(--mono); font-size:11px; color:var(--muted); text-transform:uppercase; margin-top:8px;}
+  .tc-body dd{margin:2px 0 0;}
+  .remove-btn{
+    font-family:var(--mono); font-size:11px; color:var(--muted); background:none; border:none; cursor:pointer; padding:2px 6px;
+  }
+  .remove-btn:hover{color:var(--rose);}
+
+  footer{margin-top:50px; text-align:center; color:var(--muted); font-family:var(--mono); font-size:12px;}
+
+  @media (max-width:560px){
+    .tc-top{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="index.html" class="back">&larr; back to portfolio</a>
+
+  <header>
+    <p class="eyebrow">QA Tooling</p>
+    <h1>Test Case Generator</h1>
+    <p class="sub">Describe a feature in plain language. This generates a structured set of positive, negative, edge, and boundary test cases based on common QA heuristics — not an AI model, a rule engine built from real testing patterns.</p>
+  </header>
+
+  <div class="panel">
+    <label for="featureInput">Feature description</label>
+    <textarea id="featureInput" placeholder="e.g. A login form with email and password fields, a 'remember me' checkbox, and a submit button."></textarea>
+    <div class="chip-row">
+      <span class="chip" data-example="A login form with email and password fields, a remember me checkbox and forgot password link.">Login form</span>
+      <span class="chip" data-example="A search bar that lets users search products by keyword, with filters for price and category.">Search feature</span>
+      <span class="chip" data-example="A checkout page where users enter shipping address and card details to complete payment.">Checkout / payment</span>
+      <span class="chip" data-example="A file upload button that accepts profile picture images up to 5MB.">File upload</span>
+      <span class="chip" data-example="A REST API endpoint that accepts a POST request to create a new user account.">API endpoint</span>
+      <span class="chip" data-example="A registration form with name, email, password and confirm password fields.">Registration form</span>
+    </div>
+    <div class="actions">
+      <button class="primary" id="generateBtn">Generate test cases</button>
+      <button id="clearBtn">Clear all</button>
+      <button id="exportBtn" disabled>Export CSV</button>
+    </div>
+  </div>
+
+  <div class="results-head">
+    <h2>Generated Test Cases</h2>
+    <span class="count" id="countLabel">0 cases</span>
+  </div>
+
+  <div id="results">
+    <div class="empty">No test cases yet — describe a feature above and click Generate.</div>
+  </div>
+</div>
+
+<footer>Built by Ayotunde Aleem — QA Engineer, Lagos, Nigeria</footer>
+
+<script>
+  const TEMPLATES = [
+    { key: 'login', match: ['login', 'log in', 'sign in', 'password', 'authentication'], cases: [
+      { title: 'Valid login with correct credentials', type: 'positive', steps: 'Enter a registered email and correct password, click Login', expected: 'User is authenticated and redirected to the dashboard/home screen' },
+      { title: 'Login with incorrect password', type: 'negative', steps: 'Enter a valid email with an incorrect password, click Login', expected: 'Login fails with a generic "invalid credentials" error (no hint about which field is wrong)' },
+      { title: 'Login with unregistered email', type: 'negative', steps: 'Enter an email not in the system, any password, click Login', expected: 'Login fails with the same generic error as an incorrect password' },
+      { title: 'Empty email and password fields', type: 'negative', steps: 'Leave both fields empty, click Login', expected: 'Client-side validation blocks submission with required-field messaging' },
+      { title: 'Account lockout after repeated failures', type: 'edge', steps: 'Submit incorrect password 5+ times consecutively', expected: 'Account is temporarily locked or additional verification is required' },
+      { title: 'SQL injection attempt in email field', type: 'edge', steps: "Enter a payload such as ' OR 1=1-- in the email field", expected: 'Input is safely rejected/escaped; no authentication bypass or error leak' },
+      { title: 'Session persists with "remember me" checked', type: 'positive', steps: 'Log in with "remember me" checked, close and reopen the browser', expected: 'User remains logged in without re-entering credentials' },
+      { title: 'Session expires after timeout', type: 'boundary', steps: 'Leave the session idle past the configured timeout window', expected: 'User is logged out and redirected to login on next action' },
+    ]},
+    { key: 'search', match: ['search', 'filter', 'query'], cases: [
+      { title: 'Search with a valid keyword returns matching results', type: 'positive', steps: 'Enter a keyword known to match existing items, submit search', expected: 'Relevant results are displayed, ranked sensibly' },
+      { title: 'Search with no matching results', type: 'negative', steps: 'Enter a keyword with no matches', expected: 'A clear "no results found" state is shown, not an error or blank screen' },
+      { title: 'Empty search query submitted', type: 'negative', steps: 'Submit the search with an empty input', expected: 'System either blocks submission or returns a default/full result set, not an error' },
+      { title: 'Search with special characters', type: 'edge', steps: 'Enter symbols such as %, *, or SQL-like syntax', expected: 'Input is handled safely without breaking the query or exposing an error' },
+      { title: 'Case-insensitive matching', type: 'edge', steps: 'Search the same keyword in different letter cases', expected: 'Identical results are returned regardless of case' },
+      { title: 'Combining multiple filters', type: 'boundary', steps: 'Apply keyword search plus two or more filters simultaneously', expected: 'Results correctly reflect the intersection of all applied filters' },
+    ]},
+    { key: 'checkout', match: ['checkout', 'payment', 'card', 'cart', 'order'], cases: [
+      { title: 'Successful checkout with valid payment details', type: 'positive', steps: 'Fill all required fields with valid data, submit payment', expected: 'Order is confirmed and a confirmation reference is shown' },
+      { title: 'Checkout with an invalid card number', type: 'negative', steps: 'Enter a card number that fails the Luhn check, submit', expected: 'Form blocks submission with a clear validation message' },
+      { title: 'Checkout with an expired card', type: 'negative', steps: 'Enter a card with a past expiry date', expected: 'System rejects the card with an expiry-specific error' },
+      { title: 'Checkout attempted with an empty cart', type: 'edge', steps: 'Navigate directly to checkout with zero items in the cart', expected: 'User is redirected or blocked with a clear "cart is empty" message' },
+      { title: 'Duplicate submission on double-click', type: 'edge', steps: 'Rapidly double-click the Pay/Submit button', expected: 'Only one order/charge is created, button disables after first click' },
+      { title: 'Maximum item quantity boundary', type: 'boundary', steps: 'Set item quantity to the maximum allowed value, then one above it', expected: 'System accepts the maximum and rejects any value beyond it' },
+    ]},
+    { key: 'upload', match: ['upload', 'file', 'image', 'attachment'], cases: [
+      { title: 'Upload a valid file within size and type limits', type: 'positive', steps: 'Select a supported file type under the size limit, upload', expected: 'File uploads successfully and is confirmed/displayed to the user' },
+      { title: 'Upload an unsupported file type', type: 'negative', steps: 'Select a file type not on the allowed list (e.g. .exe)', expected: 'Upload is rejected with a clear file-type error before any upload attempt' },
+      { title: 'Upload a file exceeding the size limit', type: 'negative', steps: 'Select a file larger than the maximum allowed size', expected: 'Upload is blocked with a clear size-limit message' },
+      { title: 'Upload exactly at the size limit boundary', type: 'boundary', steps: 'Upload a file exactly at the maximum allowed size (e.g. exactly 5MB)', expected: 'File is accepted, confirming the boundary is inclusive as specified' },
+      { title: 'Cancel or interrupt upload mid-progress', type: 'edge', steps: 'Start an upload and cancel or lose connection partway through', expected: 'Upload fails cleanly with an option to retry, no partial/corrupt file saved' },
+      { title: 'Upload with an empty/zero-byte file', type: 'edge', steps: 'Attempt to upload a 0KB file', expected: 'System rejects the file with an appropriate error' },
+    ]},
+    { key: 'api', match: ['api', 'endpoint', 'request', 'rest', 'post', 'get request'], cases: [
+      { title: 'Valid request returns expected success response', type: 'positive', steps: 'Send a well-formed request with all required fields and valid auth', expected: 'Response returns 200/201 with the expected schema and data' },
+      { title: 'Request missing a required field', type: 'negative', steps: 'Omit a required field from the request body', expected: 'Response returns 400 with a clear field-level error message' },
+      { title: 'Request without valid authentication', type: 'negative', steps: 'Send the request with a missing or invalid auth token', expected: 'Response returns 401, no data is exposed' },
+      { title: 'Malformed JSON body', type: 'edge', steps: 'Send a request with syntactically invalid JSON', expected: 'Response returns 400 without a server error or stack trace leak' },
+      { title: 'Rate limit exceeded', type: 'edge', steps: 'Send requests in excess of the documented rate limit', expected: 'Response returns 429 once the limit is crossed' },
+      { title: 'Field value at maximum allowed length', type: 'boundary', steps: 'Send a string field exactly at, and then one character over, its max length', expected: 'Max length is accepted, one-over is rejected with a clear error' },
+    ]},
+    { key: 'form', match: ['form', 'registration', 'sign up', 'signup'], cases: [
+      { title: 'Submit form with all valid required fields', type: 'positive', steps: 'Fill every required field with valid data, submit', expected: 'Form submits successfully and confirms to the user' },
+      { title: 'Submit with a required field left empty', type: 'negative', steps: 'Leave one required field blank, submit', expected: 'Submission is blocked with a field-specific validation message' },
+      { title: 'Submit with an invalid email format', type: 'negative', steps: "Enter an email missing '@' or a domain, submit", expected: 'Validation rejects the input before submission' },
+      { title: 'Password and confirm-password mismatch', type: 'negative', steps: 'Enter different values in password and confirm-password fields', expected: 'Form blocks submission with a mismatch error' },
+      { title: 'Field input at maximum character length', type: 'boundary', steps: 'Enter text exactly at, and then over, the max character limit for a field', expected: 'Max length is accepted, over-limit input is blocked or truncated with a message' },
+      { title: 'Special characters and emoji in text fields', type: 'edge', steps: 'Enter emoji, non-Latin characters, or script tags into a text field', expected: 'Input is safely handled and rendered without breaking the UI or executing as code' },
+    ]},
+  ];
+
+  const GENERIC_FALLBACK = [
+    { title: 'Core functionality works as described with valid input', type: 'positive', steps: 'Use the feature exactly as intended with typical, valid input', expected: 'Feature behaves as described with no errors' },
+    { title: 'Feature handles invalid input gracefully', type: 'negative', steps: 'Provide invalid, malformed, or unexpected input', expected: 'A clear, user-facing error is shown; no crash or silent failure' },
+    { title: 'Feature handles empty/missing input', type: 'negative', steps: 'Trigger the feature with no input provided where input is expected', expected: 'System responds with appropriate validation, not an unhandled error' },
+    { title: 'Feature behaves correctly at input boundaries', type: 'boundary', steps: 'Test the minimum and maximum accepted values or lengths', expected: 'Boundary values are handled exactly as specified' },
+    { title: 'Feature remains stable under rapid repeated use', type: 'edge', steps: 'Trigger the feature repeatedly and quickly', expected: 'No duplicate actions, crashes, or degraded state' },
+  ];
+
+  let generated = [];
+  let tcCounter = 1;
+
+  const input = document.getElementById('featureInput');
+  const results = document.getElementById('results');
+  const countLabel = document.getElementById('countLabel');
+  const exportBtn = document.getElementById('exportBtn');
+
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      input.value = chip.getAttribute('data-example');
+      input.focus();
+    });
+  });
+
+  function detectTemplates(text){
+    const lower = text.toLowerCase();
+    const matched = TEMPLATES.filter(t => t.match.some(kw => lower.includes(kw)));
+    if(matched.length === 0) return [{ key: 'generic', cases: GENERIC_FALLBACK }];
+    return matched;
+  }
+
+  function render(){
+    if(generated.length === 0){
+      results.innerHTML = '<div class="empty">No test cases yet — describe a feature above and click Generate.</div>';
+      countLabel.textContent = '0 cases';
+      exportBtn.disabled = true;
+      return;
+    }
+    countLabel.textContent = generated.length + (generated.length === 1 ? ' case' : ' cases');
+    exportBtn.disabled = false;
+    results.innerHTML = generated.map((tc, idx) => `
+      <div class="tc-card">
+        <div class="tc-top">
+          <div>
+            <div class="tc-id">${tc.id}</div>
+            <div class="tc-title">${escapeHtml(tc.title)}</div>
+          </div>
+          <div style="display:flex; gap:8px; align-items:center;">
+            <span class="tag ${tc.type}">${tc.type}</span>
+            <button class="remove-btn" data-idx="${idx}" title="Remove">✕</button>
+          </div>
+        </div>
+        <dl class="tc-body">
+          <dt>Steps</dt><dd>${escapeHtml(tc.steps)}</dd>
+          <dt>Expected Result</dt><dd>${escapeHtml(tc.expected)}</dd>
+        </dl>
+      </div>
+    `).join('');
+
+    results.querySelectorAll('.remove-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.getAttribute('data-idx'), 10);
+        generated.splice(idx, 1);
+        render();
+      });
+    });
+  }
+
+  function escapeHtml(str){
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  document.getElementById('generateBtn').addEventListener('click', () => {
+    const text = input.value.trim();
+    if(!text){ input.focus(); return; }
+    const templates = detectTemplates(text);
+    const newCases = templates.flatMap(t => t.cases);
+    newCases.forEach(c => {
+      generated.push({
+        id: 'TC-' + String(tcCounter++).padStart(3, '0'),
+        ...c,
+      });
+    });
+    render();
+  });
+
+  document.getElementById('clearBtn').addEventListener('click', () => {
+    generated = [];
+    tcCounter = 1;
+    input.value = '';
+    render();
+  });
+
+  exportBtn.addEventListener('click', () => {
+    const header = 'ID,Title,Type,Steps,Expected Result\n';
+    const rows = generated.map(tc =>
+      [tc.id, tc.title, tc.type, tc.steps, tc.expected]
+        .map(field => '"' + String(field).replace(/"/g, '""') + '"')
+        .join(',')
+    ).join('\n');
+    const blob = new Blob([header + rows], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'test-cases.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  render();
+</script>
+</body>
+</html>
